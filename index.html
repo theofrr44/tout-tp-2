@@ -333,15 +333,60 @@
     <textarea id="message" name="message" placeholder="Décrivez votre terrain et vos besoins…" required></textarea>
   </div>
 
-  <button type="submit" class="btn btn-primary btn-block">
+  <button type="submit" id="submitBtn" class="btn btn-primary btn-block">
     Envoyer la demande
   </button>
+
+  <!-- Zone pour afficher le résultat sans recharger la page -->
+  <div id="formResult" style="margin-top: 15px; font-weight: bold; text-align: center;"></div>
 
   <p class="form-note">
     Réponse sous 48h ouvrées. Pour une urgence, appelez directement le 02 40 56 57 37.
   </p>
 
 </form>
+
+<!-- Code JavaScript à ajouter juste après le formulaire -->
+<script>
+  const form = document.getElementById('contactForm');
+  const result = document.getElementById('formResult');
+  const submitBtn = document.getElementById('submitBtn');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); // Empêche l'ouverture du site W3Forms
+
+    // Désactive le bouton pendant l'envoi
+    submitBtn.disabled = true;
+    result.style.color = "#333";
+    result.innerHTML = "Envoi en cours...";
+
+    const formData = new FormData(form);
+
+    fetch('https://api.w3forms.com/submit', {
+      method: 'POST',
+      body: formData
+    })
+      .then(async (response) => {
+        let json = await response.json();
+        if (response.status === 200) {
+          result.style.color = "green";
+          result.innerHTML = "✅ Merci ! Votre demande a bien été envoyée.";
+          form.reset(); // Réinitialise le formulaire
+        } else {
+          result.style.color = "red";
+          result.innerHTML = "❌ " + (json.message || "Une erreur est survenue.");
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        result.style.color = "red";
+        result.innerHTML = "❌ Une erreur est survenue, veuillez réessayer.";
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+      });
+  });
+</script>
     </div>
   </section>
 
