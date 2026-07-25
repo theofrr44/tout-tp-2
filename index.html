@@ -288,15 +288,14 @@
         </dl>
       </div>
 
-<form class="contact-form reveal" id="contactForm" action="https://api.w3forms.com/submit" method="POST">
+<form class="contact-form reveal" id="contactForm">
 
-  <!-- Clé W3Forms -->
-  <input type="hidden" name="access_key" value="w3f_00e325a3cd4d87fb77ae6d91e268527dc0abb679c9a0f317">
-
-  <!-- Personnalisation des e-mails -->
-  <input type="hidden" name="subject" value="Nouvelle demande de devis - Terrassement">
-  <input type="hidden" name="from_name" value="Site Internet">
-  <input type="hidden" name="replyto" value="email">
+  <!-- Configuration FormSubmit -->
+  <!-- Sujet de l'e-mail que votre client recevra -->
+  <input type="hidden" name="_subject" value="Nouvelle demande de devis - Terrassement (Site Internet)">
+  
+  <!-- Désactive le captcha automatique pour un envoi fluide -->
+  <input type="hidden" name="_captcha" value="false">
 
   <div class="form-row">
     <div class="field">
@@ -312,6 +311,7 @@
 
   <div class="field">
     <label for="email">E-mail</label>
+    <!-- Le champ 'email' permet à votre client de faire 'Répondre' directement depuis sa boîte mail -->
     <input type="email" id="email" name="email" required>
   </div>
 
@@ -346,6 +346,56 @@
 
 </form>
 
+<!-- Code JavaScript pour l'envoi AJAX via FormSubmit -->
+<script>
+  const form = document.getElementById('contactForm');
+  const result = document.getElementById('formResult');
+  const submitBtn = document.getElementById('submitBtn');
+
+  // ⚠️ REMPLACEZ CETTE ADRESSE PAR L'EMAIL DE VOTRE CLIENT ⚠️
+  const clientEmail = "theofrr44@gmail.com";
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); // Empêche la redirection vers le site de FormSubmit
+
+    submitBtn.disabled = true;
+    result.style.color = "#333";
+    result.innerHTML = "Envoi en cours...";
+
+    // Récupération des données du formulaire
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData);
+
+    // Envoi via l'API AJAX de FormSubmit
+    fetch(`https://formsubmit.co/ajax/${clientEmail}`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(async (response) => {
+      let json = await response.json();
+      if (response.ok) {
+        result.style.color = "green";
+        result.innerHTML = "✅ Merci ! Votre demande a bien été envoyée.";
+        form.reset(); // Réinitialise le formulaire
+      } else {
+        result.style.color = "red";
+        result.innerHTML = "❌ " + (json.message || "Une erreur est survenue lors de l'envoi.");
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      result.style.color = "red";
+      result.innerHTML = "❌ Une erreur réseau est survenue, veuillez réessayer.";
+    })
+    .finally(() => {
+      submitBtn.disabled = false;
+    });
+  });
+</script>
 <!-- Code JavaScript à ajouter juste après le formulaire -->
 <script>
   const form = document.getElementById('contactForm');
