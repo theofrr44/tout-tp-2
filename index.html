@@ -288,40 +288,60 @@
         </dl>
       </div>
 
-      <form class="contact-form reveal" id="contactForm" action="https://formspree.io/f/VOTRE_ID_FORMSPREE" method="POST">
-        <div class="form-row">
-          <div class="field">
-            <label for="nom">Nom</label>
-            <input type="text" id="nom" name="nom" required>
-          </div>
-          <div class="field">
-            <label for="tel">Téléphone</label>
-            <input type="tel" id="tel" name="telephone" required>
-          </div>
-        </div>
-        <div class="field">
-          <label for="email">E-mail</label>
-          <input type="email" id="email" name="email" required>
-        </div>
-        <div class="field">
-          <label for="type">Type de travaux</label>
-          <select id="type" name="type_de_travaux">
-            <option>Terrassement</option>
-            <option>Assainissement</option>
-            <option>VRD</option>
-            <option>Démolition</option>
-            <option>Aménagement extérieur</option>
-            <option>Location d'engins</option>
-            <option>Autre</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="message">Votre projet</label>
-          <textarea id="message" name="message" placeholder="Décrivez votre terrain et vos besoins…"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Envoyer la demande</button>
-        <p class="form-note">Réponse sous 48h ouvrées. Pour une urgence, appelez directement le 02 40 56 57 37.</p>
-      </form>
+<form class="contact-form reveal" id="contactForm" action="https://api.w3forms.com/submit" method="POST">
+
+  <!-- Clé W3Forms -->
+  <input type="hidden" name="access_key" value="w3f_00e325a3cd4d87fb77ae6d91e268527dc0abb679c9a0f317">
+
+  <!-- Personnalisation des e-mails -->
+  <input type="hidden" name="subject" value="Nouvelle demande de devis - Terrassement">
+  <input type="hidden" name="from_name" value="Site Internet">
+  <input type="hidden" name="replyto" value="email">
+
+  <div class="form-row">
+    <div class="field">
+      <label for="nom">Nom</label>
+      <input type="text" id="nom" name="nom" required>
+    </div>
+
+    <div class="field">
+      <label for="tel">Téléphone</label>
+      <input type="tel" id="tel" name="telephone" required>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="email">E-mail</label>
+    <input type="email" id="email" name="email" required>
+  </div>
+
+  <div class="field">
+    <label for="type">Type de travaux</label>
+    <select id="type" name="type_de_travaux">
+      <option>Terrassement</option>
+      <option>Assainissement</option>
+      <option>VRD</option>
+      <option>Démolition</option>
+      <option>Aménagement extérieur</option>
+      <option>Location d'engins</option>
+      <option>Autre</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label for="message">Votre projet</label>
+    <textarea id="message" name="message" placeholder="Décrivez votre terrain et vos besoins…" required></textarea>
+  </div>
+
+  <button type="submit" class="btn btn-primary btn-block">
+    Envoyer la demande
+  </button>
+
+  <p class="form-note">
+    Réponse sous 48h ouvrées. Pour une urgence, appelez directement le 02 40 56 57 37.
+  </p>
+
+</form>
     </div>
   </section>
 
