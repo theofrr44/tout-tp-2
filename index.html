@@ -396,47 +396,6 @@
     });
   });
 </script>
-<!-- Code JavaScript à ajouter juste après le formulaire -->
-<script>
-  const form = document.getElementById('contactForm');
-  const result = document.getElementById('formResult');
-  const submitBtn = document.getElementById('submitBtn');
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault(); // Empêche l'ouverture du site W3Forms
-
-    // Désactive le bouton pendant l'envoi
-    submitBtn.disabled = true;
-    result.style.color = "#333";
-    result.innerHTML = "Envoi en cours...";
-
-    const formData = new FormData(form);
-
-    fetch('https://api.w3forms.com/submit', {
-      method: 'POST',
-      body: formData
-    })
-      .then(async (response) => {
-        let json = await response.json();
-        if (response.status === 200) {
-          result.style.color = "green";
-          result.innerHTML = "✅ Merci ! Votre demande a bien été envoyée.";
-          form.reset(); // Réinitialise le formulaire
-        } else {
-          result.style.color = "red";
-          result.innerHTML = "❌ " + (json.message || "Une erreur est survenue.");
-        }
-      })
-      .catch(error => {
-        console.error(error);
-        result.style.color = "red";
-        result.innerHTML = "❌ Une erreur est survenue, veuillez réessayer.";
-      })
-      .finally(() => {
-        submitBtn.disabled = false;
-      });
-  });
-</script>
     </div>
   </section>
 
